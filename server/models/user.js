@@ -30,9 +30,9 @@ let userSchema = new Schema({
     default: true
   },
   google: {
-    type: Boolean
+    type: Boolean,
     default: false
   }
 });
 
-module.exports = moongose.models('User', userSchema);
+module.exports = mongoose.model('User', userSchema);
