@@ -1,6 +1,12 @@
 // User model structure definition
 
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+
+let roles = {
+  values: ['ADMIN_ROLE', 'USER_ROLE'],
+  message: '{VALUE} is an invalid ROLE'
+}
 let Schema = mongoose.Schema;
 
 let userSchema = new Schema({
@@ -10,6 +16,7 @@ let userSchema = new Schema({
   },
   email: {
     type: String,
+    unique: true,
     required: [true, 'Email is required']
   },
   password: {
@@ -23,7 +30,7 @@ let userSchema = new Schema({
   role: {
     type: String,
     default: 'USER_ROLE',
-    required: true
+    enum: roles
   },
   active: {
     type: Boolean,
@@ -35,4 +42,5 @@ let userSchema = new Schema({
   }
 });
 
+userSchema.plugin(uniqueValidator, { message: '{PATH} must be unique.'});
 module.exports = mongoose.model('User', userSchema);
