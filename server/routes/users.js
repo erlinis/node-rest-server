@@ -19,9 +19,13 @@ app.get('/users', function (request, response) {
           return response.status(400).json(errorResponse(err));
         }
 
-        response.json({
-          ok: true,
-          users
+
+        User.count({}, (err, totalUsers) => {
+          response.json({
+            ok: true,
+            users,
+            totalUsers: totalUsers
+          });
         });
       });
 });
